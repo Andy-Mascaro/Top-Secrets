@@ -4,11 +4,19 @@ const request = require('supertest');
 const app = require('../lib/app');
 const { UserService } = require('../lib/services/UserService');
 
+
 const fakeUser = {
   first_name: 'Bobby',
   last_name: 'Roberts',
   email: 'bob@bob.com',
   password: '111111',
+};
+
+const secret = {
+  id: 1,
+  title: 'Can you see this',
+  description: 'If so and are not authorized you are going jail',
+  created_at: '2022-06-22 21:29:10.828996-07',
 };
 
 const signupSignin = async (userInfo = {}) => {
@@ -27,9 +35,16 @@ describe('user routes', () => {
     return setup(pool);
   });
 
-  afterAll(() => {
-    pool.end();
-  });
+  it('/secrets should show secrets');
+  const [auth] = await signupSignin({ email: 'admin' });
+  const res = await auth.get('/api/v1/secrets');
+
+  expect(res.body).toEqual([{ 
+    id: '1',
+    title: 'Can you see this',
+    description: 'If so and are not authorized you are going jail',
+    created_at: '2022-06-22 21:29:10.828996-07', }]);
+});
 
   it('POST should create new user', async () => {
     const resp = await request(app).post('/api/v1/users').send(fakeUser);
@@ -77,5 +92,9 @@ describe('user routes', () => {
     const res = await auth.get('/api/v1/users');
 
     expect(res.body).toEqual([{ ...user }]);
+  });
+
+  afterAll(() => {
+    pool.end();
   });
 });
