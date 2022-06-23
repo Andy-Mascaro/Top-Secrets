@@ -35,7 +35,7 @@ describe('user routes', () => {
     return setup(pool);
   });
 
-  it('/secrets should show secrets');
+  it('/secrets should show secrets'); async () => {
   const [auth] = await signupSignin({ email: 'admin' });
   const res = await auth.get('/api/v1/secrets');
 
@@ -44,6 +44,7 @@ describe('user routes', () => {
     title: 'Can you see this',
     description: 'If so and are not authorized you are going jail',
     created_at: '2022-06-22 21:29:10.828996-07', }]);
+  }
 });
 
   it('POST should create new user', async () => {
