@@ -57,7 +57,7 @@ describe('user routes', () => {
   });
 
   it('should return a 403 when signed in but not admin and listing all users', async () => {
-    const [auth] = await registerAndLogin();
+    const [auth] = await signupSignin();
     const res = await auth.get('/api/v1/users');
 
     expect(res.body).toEqual({
@@ -67,7 +67,7 @@ describe('user routes', () => {
   });
 
   it('should return a list of users if signed in as admin', async () => {
-    const [auth, user] = await registerAndLogin({ email: 'admin' });
+    const [auth, user] = await signupSignin({ email: 'admin' });
     const res = await auth.get('/api/v1/users');
 
     expect(res.body).toEqual([{ ...user }]);
