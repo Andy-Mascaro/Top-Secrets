@@ -5,6 +5,8 @@ const app = require('../lib/app');
 const { UserService } = require('../lib/services/UserService');
 
 const fakeUser = {
+  first_name: 'Bobby',
+  last_name: 'Roberts',
   email: 'bob@bob.com',
   password: '111111',
 };
@@ -13,8 +15,10 @@ const signupSignin = async (userInfo = {}) => {
   const password = userInfo.password ?? fakeUser.password;
   const auth = request.agent(app);
   const user = await UserService.create({ ...fakeUser, ...userInfo });
-  const { email } = user;
-  await auth.post('/api/v1/users/sessions').send({ email, password });
+  const { first_name, last_name, email } = user;
+  await auth
+    .post('/api/v1/users/sessions')
+    .send({ first_name, last_name, email, password });
   return [auth, user];
 };
 
@@ -29,10 +33,12 @@ describe('user routes', () => {
 
   it('POST should create new user', async () => {
     const resp = await request(app).post('/api/v1/users').send(fakeUser);
-    const { email } = fakeUser;
+    const { first_name, last_name, email } = fakeUser;
 
     expect(resp.body).toEqual({
       id: expect.any(String),
+      first_name,
+      last_name,
       email,
     });
   });
