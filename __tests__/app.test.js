@@ -9,7 +9,7 @@ const fakeUser = {
   password: '111111',
 };
 
-const singupSignin = async (userInfo = {}) => {
+const signupSignin = async (userInfo = {}) => {
   const password = userInfo.password ?? fakeUser.password;
   const auth = request.agent(app);
   const user = await UserService.create({ ...fakeUser, ...userInfo });
@@ -34,8 +34,8 @@ describe('user routes', () => {
   });
 
   it('should return user', async () => {
-    const [auth, user] = await singupSignin();
-    const person = await auth.get('/api/users/me');
+    const [auth, user] = await signupSignin();
+    const person = await auth.get('/api/v1/users/person');
 
     expect(person.body).toEqual({
       ...user,
