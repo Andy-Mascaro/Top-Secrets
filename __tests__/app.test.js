@@ -23,6 +23,10 @@ describe('user routes', () => {
     return setup(pool);
   });
 
+  afterAll(() => {
+    pool.end();
+  });
+
   it('POST should create new user', async () => {
     const resp = await request(app).post('/api/v1/users').send(fakeUser);
     const { email } = fakeUser;
@@ -42,9 +46,5 @@ describe('user routes', () => {
       exp: expect.any(Number),
       iat: expect.any(Number),
     });
-  });
-
-  afterAll(() => {
-    pool.end();
   });
 });
