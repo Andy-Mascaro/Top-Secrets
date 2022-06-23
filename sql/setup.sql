@@ -16,7 +16,7 @@ CREATE TABLE secrets (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO secrets( title, description, created_at)
+INSERT INTO secrets( title, description)
 
 VALUES
-('Can you see this', 'If so and are not authorized you are going jail', '2022-06-22 21:29:10.828996-07')
+('Can you see this', 'If so and are not authorized you are going jail')

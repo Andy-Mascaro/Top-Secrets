@@ -12,10 +12,9 @@ const fakeUser = {
 };
 
 const secret = {
-  id: 1,
-  title: 'Can you see this',
-  description: 'If so and are not authorized you are going jail',
-  created_at: '2022-06-22 21:29:10.828996-07',
+  title: 'Do not look',
+  description: 'Peeking is a no no',
+  created_at: Date.now(),
 };
 
 const signupSignin = async (userInfo = {}) => {
@@ -34,7 +33,18 @@ describe('user routes', () => {
     return setup(pool);
   });
 
-  it('/secrets should show secrets', async () => {
+  // it('POST should create new secret', async () => {
+  //   const resp = await request(app).post('/api/v1/secret').send(secret);
+  //   const [auth] = await signupSignin({ email: 'admin' });
+
+  //   expect(resp.body).toEqual({
+  //     title,
+  //     description,
+  //     created_at,
+  //   });
+  // });
+
+  it('/ should show secrets', async () => {
     const [auth] = await signupSignin({ email: 'admin' });
     const res = await auth.get('/api/v1/secrets');
 
@@ -43,7 +53,7 @@ describe('user routes', () => {
         id: '1',
         title: 'Can you see this',
         description: 'If so and are not authorized you are going jail',
-        created_at: '2022-06-23T04:29:10.828Z',
+        created_at: expect.any(String),
       },
     ]);
   });
