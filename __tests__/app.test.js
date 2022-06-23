@@ -47,4 +47,29 @@ describe('user routes', () => {
       iat: expect.any(Number),
     });
   });
+
+  it('should return a 401 when signed out and listing all users', async () => {
+    const res = await request(app).get('/api/v1/users');
+    expect(res.body).toEqual({
+      message: 'You must be signed in to continue',
+      status: 401,
+    });
+  });
+
+  it('should return a 403 when signed in but not admin and listing all users', async () => {
+    const [auth] = await registerAndLogin();
+    const res = await auth.get('/api/v1/users');
+
+    expect(res.body).toEqual({
+      message: 'You do not have access to view this page',
+      status: 403,
+    });
+  });
+
+  it('should return a list of users if signed in as admin', async () => {
+    const [auth, user] = await registerAndLogin({ email: 'admin' });
+    const res = await auth.get('/api/v1/users');
+
+    expect(res.body).toEqual([{ ...user }]);
+  });
 });
