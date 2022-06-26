@@ -11,12 +11,6 @@ const fakeUser = {
   password: '111111',
 };
 
-const secret = {
-  title: 'Do not look',
-  description: 'Peeking is a no no',
-  created_at: Date.now(),
-};
-
 const signupSignin = async (userInfo = {}) => {
   const password = userInfo.password ?? fakeUser.password;
   const auth = request.agent(app);
@@ -31,31 +25,6 @@ const signupSignin = async (userInfo = {}) => {
 describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
-  });
-
-  // it('POST should create new secret', async () => {
-  //   const resp = await request(app).post('/api/v1/secret').send(secret);
-  //   const [auth] = await signupSignin({ email: 'admin' });
-
-  //   expect(resp.body).toEqual({
-  //     title,
-  //     description,
-  //     created_at,
-  //   });
-  // });
-
-  it('/ should show secrets', async () => {
-    const [auth] = await signupSignin({ email: 'admin' });
-    const res = await auth.get('/api/v1/secrets');
-
-    expect(res.body).toEqual([
-      {
-        id: '1',
-        title: 'Can you see this',
-        description: 'If so and are not authorized you are going jail',
-        created_at: expect.any(String),
-      },
-    ]);
   });
 
   it('POST should create new user', async () => {

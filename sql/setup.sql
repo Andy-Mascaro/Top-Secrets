@@ -9,7 +9,7 @@ email TEXT NOT NULL,
 password_hash TEXT NOT NULL
 );
 
-CREATE TABLE secrets (
+CREATE TABLE secrets(
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
